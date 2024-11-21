@@ -1,0 +1,79 @@
+/*GRUPO 2*/
+
+create database restaurante;
+
+use restaurante;
+
+create table prato(
+	id int primary key not null auto_increment,
+    nome varchar(255) not null,
+    descricao varchar(255) not null,
+    preco int not null,
+    tipo varchar(255) not null
+);
+    
+create table cliente(
+	id int primary key not null auto_increment,
+	nome varchar(255) not null,
+    telefone varchar(255) not null,
+    email varchar(255) not null
+);
+
+create table pedido(
+	id int primary key not null auto_increment,
+    cliente_id int not null, foreign key(cliente_id) references cliente(id),
+    data_pedido date not null,
+    status_pedido varchar(255) not null
+);
+
+create table item_pedido(
+	id int primary key not null auto_increment,
+	pedido_id int not null, foreign key(pedido_id) references pedido(id),
+	prato_id int not null, foreign key(prato_id) references prato(id),
+    quantidade int
+);
+
+create table mesa(
+	id int primary key not null auto_increment,
+    numero varchar(255) not null,
+    capacidade int not null
+);
+
+insert into prato(nome, descricao, preco) values ('Pizza Margherita', 'Pizza com tomate,
+manjericão e mussarela', 40.00);
+
+insert into cliente(nome, telefone, email) values ('João', '123456789', 'joao@example.com');
+
+insert into pedido(cliente_id, data_pedido, status_pedido) values (1, '2024-11-21', 'aberto');
+
+insert into item_pedido(pedido_id, prato_id, quantidade) values (1, 1, 2);
+
+insert into mesa(numero, capacidade) values ('5', 4);
+insert into prato(nome, descricao, preco) values ('picanha', 'carne', 60.00);
+insert into cliente(nome, telefone, email) values ('Carlos', '4598292423', 'carlinhostop11@gmail.com' );
+insert into pedido(cliente_id, data_pedido, status_pedido) values (2, '2024-10-01', 'fechado');
+
+update prato set preco=45.00 where id=1;
+update pedido set status_pedido="concluido" where id=1;
+
+select * from prato;
+select * from cliente;
+select cliente_id from pedido where id=1;
+select pedido_id from item_pedido where id=1;
+select preco from prato where preco= 30.00;
+select nome from cliente where nome= 'j';
+
+select * from pedido inner join cliente;
+
+insert into prato(nome, preco) values ('sushi', 50.00);
+insert into cliente(nome, telefone) values ('Maria', '987654321');
+
+update mesa set numero='6' where id=1;
+
+select data_pedido from pedido where data_pedido= '2024-10-01';
+select * from prato where descricao= 'carne';
+
+delete from cliente where nome = 'Carlos';
+insert into pedido(cliente_id, data_pedido, status_pedido) values (2, '2024-10-01', 'fechado');
+insert into item_pedido(pedido_id, prato_id, quantidade) values (2, 3, 1);
+
